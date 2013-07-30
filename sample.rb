@@ -1,17 +1,17 @@
 require 'rubygems'
 require 'eventmachine'
 
-class Echo < EventMachine::Connection
+module EchoServer
   def post_init
-    send_data 'Hello'
+    puts "-- someone connected to the echo server!"
   end
 
-  def receive_data(data)
-    p data
+  def receive_data data
+    send_data ">>> you sent: #{data}"
   end
 end
 
-print 'Running event machine'
-EventMachine.run {
-  EventMachine.connect '127.0.0.1', 8081, Echo
+EventMachine::run {
+  EventMachine::start_server "127.0.0.1", 8081, EchoServer
+  puts 'running echo server on 8081'
 }
