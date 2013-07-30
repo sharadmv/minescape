@@ -13,3 +13,4 @@ gem 'em-rspec', :path=>"./em-rspec/"
 gem 'pg'
 gem 'sequel'
 gem 'json'
+gem 'em-rspec', :path => "./em-rspec/"
