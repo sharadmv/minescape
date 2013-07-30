@@ -4,7 +4,8 @@ require "rspec/core/rake_task"
 
 RSpec::Core::RakeTask.new(:test) do |spec|
   spec.pattern = 'spec/unit/*.rb'
-  spec.rspec_opts = ['--backtrace --failure-exit-code 0']
+  #spec.rspec_opts = ['--backtrace --failure-exit-code 0']
+  spec.rspec_opts = ['--backtrace']
 end
 
 task :default => [:server]
