@@ -9,5 +9,4 @@ gem 'travis-lint'
 gem 'rake'
 gem 'rspec'
 gem 'web-socket-ruby'
-#gem "em-rspec", :path => "./em-rspec/"
 gem 'em-rspec'
