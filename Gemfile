@@ -4,4 +4,4 @@ source "https://rubygems.org"
 gem 'eventmachine'
 gem 'pry'
 gem 'foreman'
-
+gem 'em-websocket'
