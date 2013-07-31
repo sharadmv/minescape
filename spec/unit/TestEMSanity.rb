@@ -1,6 +1,6 @@
 require 'rspec'
 require 'em-rspec'
-require './lib/GameServer.rb'
+require './lib/game_server.rb'
 
 describe GameServer do
   before do
