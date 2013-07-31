@@ -18,5 +18,3 @@ _yardoc
 doc/
 Gemfile.lock
 *.swp
-
-config.yml
