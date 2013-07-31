@@ -1,4 +1,8 @@
 require 'em-websocket'
+require 'json'
+require './util.rb'
+require './model/player.rb'
+
 
 EM.run do
   port = 9091
@@ -11,9 +15,45 @@ EM.run do
 
     ws.onclose { puts "Connection closed" }
 
-    ws.onmessage do |msg|
-      puts "Recieved message: #{msg}"
-      ws.send("Pong: #{msg}")
+    ws.onmessage do |raw_msg|
+      puts "Recieved message: #{raw_msg}"
+
+      begin
+        msg = JSON.parse(raw_msg)
+      rescue JSON::ParserError
+        ws.send("Malformed json: #{raw_msg}")
+        next
+      end
+      command = msg['command']
+
+      object, method = command.split('.')
+
+      case object
+      when 'player'
+        if !msg.include?('player_id')
+          ws.send("Missing player_id")
+          next
+        end
+        player_id = msg['player_id']
+        player = Player[player_id]
+        
+        if player.nil?
+          ws.send("Invalid player_id #{player_id}")
+          next
+        end
+
+        if !Player.method_defined?(method.to_sym)
+          ws.send("Invalid method #{method}")
+          next
+        end
+
+        player.send(method.to_sym)
+      else
+        ws.send("Unknown object: #{object}")
+        next
+      end
+
+      ws.send("Performed command: #{command}")
     end
   end
 end
