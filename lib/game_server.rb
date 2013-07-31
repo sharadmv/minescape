@@ -1,5 +1,6 @@
 require 'em-websocket'
 require 'json'
+require_relative './util'
 require_relative './connection'
 
 class GameServer
