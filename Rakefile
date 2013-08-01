@@ -7,8 +7,8 @@ RSpec::Core::RakeTask.new(:test) do |spec|
   spec.rspec_opts = ['--backtrace']
 end
 
-task :default => [:server]
+task :default => [:test]
 
-task :server do 
+task :web do 
   ruby "./start.rb"
 end

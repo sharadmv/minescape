@@ -8,6 +8,6 @@ end
 
 describe 'async unaware rspec' do
   it 'runs examples without eventmachine reactor' do
-    EM.reactor_running?.should be_false
+    EM.reactor_running?.should(be_false)
   end
 end

@@ -9,7 +9,7 @@ class GameServer
     @running = false
   end
 
-  def isRunning()
+  def isRunning
     @running
   end
 
