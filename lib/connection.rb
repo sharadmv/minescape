@@ -23,8 +23,8 @@ class Connection
     @ws.onclose do 
     end
 
-    @ws.onmessage do |msg|
-      message = Message.load(msg)
+    @ws.onmessage do |raw_msg|
+      message = Message.load(raw_msg)
       if message.nil?
         error("Malformed message")
         next
@@ -42,9 +42,9 @@ class Connection
 
   def ack(msg)
     ack = Message.new(MessageType::ACK, {
-      "message" => msg
+      'message' => msg
     })
-    @ws.send(err.dump)
+    @ws.send(ack.dump)
   end
 
   def send(message)

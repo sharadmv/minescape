@@ -1,5 +1,5 @@
 db:
   user: minescape
-  password: minescape
+  password:
   host: localhost
   port: 5432
