@@ -1,8 +1,15 @@
-require'json'
-require_relative './message'
-require_relative './model/player'
+require 'json'
+
+require './lib/message'
+require './lib/handler/command'
+require './lib/model/player'
 
 class Connection
+
+  @@HANDLERS = {
+    MessageType::COMMAND => CommandHandler
+  }
+
   def initialize(ws)
     @ws = ws
 
@@ -10,62 +17,37 @@ class Connection
       response = Message.new(MessageType::ACK, {
         "message" => "Connection established"
       })
-      ws.send(response.to_json)
+      ws.send(response.dump)
     end
 
     @ws.onclose do 
     end
 
-    @ws.onmessage do |message|
-      msg = Message.load(message)
-      if msg.nil?
-        send_error("Malformed message")
+    @ws.onmessage do |msg|
+      message = Message.load(msg)
+      if message.nil?
+        error("Malformed message")
         next
       end
-      if msg.get_type == MessageType::COMMAND
-        data = msg.get_data
-        command = data['command']
-        object, method = command.split('.')
-        case object
-        when 'player'
-          if !data.include?('player_id')
-            send_error("Missing player_id")
-            next
-          end
-          player_id = data['player_id']
-          player = Player[player_id]
-          
-          if player.nil?
-            send_error("Invalid player_id #{player_id}")
-            next
-          end
-
-          if !Player.method_defined?(method.to_sym)
-            send_error("Invalid method #{method}")
-            next
-          end
-
-          player.send(method.to_sym)
-        else
-          send_error("Unknown object: #{object}")
-          next
-        end
-      end
-      response = Message.new(MessageType::ACK, {
-        "message" => "Message received"
-      })
-      ws.send(response.to_json)
+      @@HANDLERS[message.type].new(self, message).handle
     end
   end
 
-  def send_error(msg)
+  def error(msg)
     err = Message.new(MessageType::ERROR, {
       "message" => msg
     })
-    @ws.send(err.to_json)
+    @ws.send(err.dump)
+  end
+
+  def ack(msg)
+    ack = Message.new(MessageType::ACK, {
+      "message" => msg
+    })
+    @ws.send(err.dump)
   end
 
   def send(message)
-    @ws.send(message.to_json)
+    @ws.send(message.dump)
   end
 end
