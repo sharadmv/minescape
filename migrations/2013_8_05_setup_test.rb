@@ -5,3 +5,4 @@ player = Player.new
 player.name = "Sharad"
 player.x = 200
 player.y = 400
+player.save

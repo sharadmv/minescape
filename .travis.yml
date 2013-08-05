@@ -3,8 +3,8 @@ rvm:
     - "1.9.3"
 gemfile: Gemfile
 before_script:
-  - psql -c 'create user minescape;' -U postgres
+  - sudo migrations/setup_db.sh
 after_install:
-  - ruby migrations/2013_7_29_setup_tables.rb
+  - ruby migrations/*.rb
 script: 
     - bundle exec rake test
