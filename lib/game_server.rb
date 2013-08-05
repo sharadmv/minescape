@@ -9,11 +9,11 @@ class GameServer
     @running = false
   end
 
-  def isRunning
+  def is_running
     @running
   end
 
-  def start()
+  def start
     EM.run do
       @running = true
       EM::WebSocket.run(:host => "localhost", :port => @port) do |ws|

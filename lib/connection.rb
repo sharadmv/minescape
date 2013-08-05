@@ -18,7 +18,7 @@ class Connection
 
     @ws.onmessage do |message|
       msg = Message.load(message)
-      if not msg
+      if msg.nil?
         send_error("Malformed message")
         next
       end

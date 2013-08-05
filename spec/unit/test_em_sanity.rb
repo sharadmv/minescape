@@ -8,6 +8,6 @@ describe GameServer do
     @gs.start
   end
   it 'should be running' do
-    @gs.isRunning.should(be_true)
+    @gs.is_running.should(be_true)
   end
 end
