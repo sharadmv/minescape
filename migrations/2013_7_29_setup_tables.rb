@@ -1,4 +1,6 @@
-require_relative '../lib/util'
+require 'sequel'
+require './lib/util'
+
 DB.create_table(:players) do 
   primary_key :id
   String :name

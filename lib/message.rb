@@ -6,20 +6,16 @@ class MessageType
   COMMAND=3
 end
 class Message
+
+  attr_reader :type
+  attr_reader :data
+
   def initialize(type, data)
     @type = type
     @data = data
   end
 
-  def get_type
-    @type
-  end
-
-  def get_data
-    @data
-  end
-
-  def to_json
+  def dump
     return JSON.dump({
       'type' => @type,
       'data' => @data
@@ -31,7 +27,7 @@ class Message
       hash = JSON.parse(json)
       return Message.new(hash['type'], hash['data'])
     rescue JSON::ParserError
-      return false
+      return nil
     end
   end
 end
