@@ -1,9 +1,14 @@
-task :default => [:server]
+require 'rake'
+require "rspec/core/rake_task"
 
-task :test do
-  puts "Tests passed!"
+
+RSpec::Core::RakeTask.new(:test) do |spec|
+  spec.pattern = 'spec/unit/*.rb'
+  spec.rspec_opts = ['--backtrace']
 end
 
-task :server do 
-  ruby "./server.rb"
+task :default => [:test]
+
+task :web do 
+  ruby "./start.rb"
 end

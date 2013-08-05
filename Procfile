@@ -1,1 +1,1 @@
-web: ruby sample.rb
+web: bundle exec rake web
