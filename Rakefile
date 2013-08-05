@@ -1,5 +1,5 @@
 require 'rake'
-require "rspec/core/rake_task"
+require 'rspec/core/rake_task'
 
 
 RSpec::Core::RakeTask.new(:test) do |spec|
@@ -10,5 +10,5 @@ end
 task :default => [:test]
 
 task :web do 
-  ruby "./start.rb"
+  ruby './start.rb'
 end
